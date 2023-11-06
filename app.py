@@ -12,11 +12,19 @@ semesterList = studentInfo['code_presentation'].unique()
 st.write(
     '## Dashboard Title'
 )
+on = st.checkbox('Show all')
 
 option = st.selectbox(
     'Which semester?',
     (semesterList))
 
-result_df = studentInfo[studentInfo['code_presentation']==option]
+if on:
+    result_df = studentInfo
+else:
+    result_df = studentInfo[studentInfo['code_presentation']==option]
 
 st.dataframe(result_df)
+
+student_by_gender = pd.crosstab(index=result_df['code_presentation'], columns=result_df['gender'])
+
+st.bar_chart(student_by_gender)
